@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fest 2026 - Official Ticket Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand-logo" onclick="switchTab('home')">
+                <span class="logo-accent">⚡ FEST</span> 2027
+            </div>
+            <nav class="nav-links">
+                <button class="nav-btn active" id="tab-home" onclick="switchTab('home')">Home</button>
+                <button class="nav-btn" id="tab-generator" onclick="switchTab('generator')">Generate Ticket</button>
+                <button class="nav-btn" id="tab-passes" onclick="switchTab('passes')">My Passes</button>
+                <button class="theme-toggle-btn" id="theme-toggle" onclick="toggleDarkMode()"
+                    title="Toggle Dark/Light Mode">🌙</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+
+        <!-- ================= TAB 1: HOME ================= -->
+        <section id="view-home" class="view-section active">
+            <div class="hero-card">
+                <span class="badge">OCTOBER 24-26, 2027</span>
+                <h1 class="hero-title">Experience the Magic at <span class="gradient-text">Fest 2027</span></h1>
+                <p class="hero-desc">
+                    Get ready for 3 electrifying days of live music, delicious food stalls, and thrilling carnival
+                    games.
+                    Customize your festival experience and download your verified student pass in minutes.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="startGenerator()">Generate Ticket Now →</button>
+                    <button class="btn btn-secondary" onclick="switchTab('passes')">View My Passes</button>
+                </div>
+            </div>
+
+            <div class="highlights-grid">
+                <div class="info-card">
+                    <h3>🎵 12+ Artists</h3>
+                    <p>Headlining EDM, Rock, and Indie sensations across 3 festival stages.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🍔 Curated Food Street</h3>
+                    <p>From gourmet burgers to quick street bites, pre-order and skip the queue.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🕹️ Arena & Fun Zone</h3>
+                    <p>Laser tag, arcade alleys, escape rooms, and VR simulator stations.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= TAB 2: GENERATE TICKET (WIZARD) ================= -->
+        <section id="view-generator" class="view-section">
+            <div class="wizard-container">
+
+                <!-- Step Progress Indicator -->
+                <div class="step-indicator">
+                    <div class="step-badge active" id="step-badge-1">1. Details</div>
+                    <div class="step-badge" id="step-badge-2">2. Artists</div>
+                    <div class="step-badge" id="step-badge-3">3. Food</div>
+                    <div class="step-badge" id="step-badge-4">4. Games</div>
+                    <div class="step-badge" id="step-badge-5">5. Pass</div>
+                    <div class="step-badge" id="step-badge-6">6. Review</div>
+                </div>
+
+                <!-- STEP 1: USER DETAILS -->
+                <div class="wizard-step active" id="step-1">
+                    <h2>Step 1: Student Information</h2>
+                    <p class="step-sub">Enter your student credentials for festival registration.</p>
+
+                    <div class="form-group">
+                        <label for="user-name">Full Name *</label>
+                        <input type="text" id="user-name" placeholder="e.g., Jane Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user-roll">Institute Roll Number *</label>
+                        <input type="text" id="user-roll" placeholder="e.g., 22CS30045" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user-photo-input">Upload Profile Photo </label>
+                        <input type="file" id="user-photo-input" accept="image/*" onchange="handleImagePreview()">
+                        <small class="help-text">Upload a profile photo. A default placeholder will be used if left blank.</small>
+                    </div>
+
+                    <div class="preview-box">
+                        <p>Photo Preview:</p>
+                        <img id="avatar-preview"
+                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200"
+                            alt="Preview Photo">
+                    </div>
+
+                    <div class="wizard-actions">
+                        <div></div>
+                        <button class="btn btn-primary" onclick="goToStep(2)">Next: Select Artists →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: ARTIST SELECTION -->
+                <div class="wizard-step" id="step-2">
+                    <h2>Step 2: Choose Artists</h2>
+                    <p class="step-sub">Select the concert lineups you want to attend (Multiple allowed).</p>
+
+                    <div class="cards-grid" id="artists-container">
+                        <!-- Rendered dynamically by script.js -->
+                    </div>
+
+                    <div class="wizard-actions">
+                        <button class="btn btn-secondary" onclick="goToStep(1)">← Back</button>
+                        <button class="btn btn-primary" onclick="goToStep(3)">Next: Select Food →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: FOOD SELECTION -->
+                <div class="wizard-step" id="step-3">
+                    <h2>Step 3: Food & Beverages</h2>
+                    <p class="step-sub">Pre-book your meal combos to skip food stall queues.</p>
+
+                    <div class="cards-grid" id="food-container">
+                        <!-- Rendered dynamically by script.js -->
+                    </div>
+
+                    <div class="wizard-actions">
+                        <button class="btn btn-secondary" onclick="goToStep(2)">← Back</button>
+                        <button class="btn btn-primary" onclick="goToStep(4)">Next: Games & Activities →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 4: GAMES AND ACTIVITIES -->
+                <div class="wizard-step" id="step-4">
+                    <h2>Step 4: Fun Zone & Games</h2>
+                    <p class="step-sub">Add competitive arena matches and experiences to your pass.</p>
+
+                    <div class="cards-grid" id="games-container">
+                        <!-- Rendered dynamically by script.js -->
+                    </div>
+
+                    <div class="wizard-actions">
+                        <button class="btn btn-secondary" onclick="goToStep(3)">← Back</button>
+                        <button class="btn btn-primary" onclick="goToStep(5)">Next: Choose Pass Category →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 5: PASS SELECTION -->
+                <div class="wizard-step" id="step-5">
+                    <h2>Step 5: Select Pass Category</h2>
+                    <p class="step-sub">Choose your access level for Fest 2026.</p>
+
+                    <div class="cards-grid" id="passes-tier-container">
+                        <!-- Rendered dynamically by script.js -->
+                    </div>
+
+                    <div class="wizard-actions">
+                        <button class="btn btn-secondary" onclick="goToStep(4)">← Back</button>
+                        <button class="btn btn-primary" onclick="goToStep(6)">Next: Review Summary →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 6: REVIEW & SUMMARY -->
+                <div class="wizard-step" id="step-6">
+                    <h2>Step 6: Review Your Selections</h2>
+                    <p class="step-sub">Check all details before generating your final pass.</p>
+
+                    <div class="review-box" id="review-content">
+                        <!-- Rendered dynamically by script.js -->
+                    </div>
+
+                    <div class="price-breakdown-card" id="price-breakdown-content">
+                        <!-- Dynamic calculation breakdown -->
+                    </div>
+
+                    <div class="wizard-actions">
+                        <button class="btn btn-secondary" onclick="goToStep(5)">← Back</button>
+                        <button class="btn btn-success" onclick="generateTicket()">Confirm & Generate Pass 🎟️</button>
+                    </div>
+                </div>
+
+                <!-- FINAL TICKET DISPLAY (Rendered upon generation) -->
+                <div class="wizard-step" id="step-ticket">
+                    <div class="ticket-wrapper" id="printable-ticket">
+                        <div class="ticket-card">
+                            <div class="ticket-header">
+                                <div>
+                                    <h3 class="fest-title">⚡ FEST 2026 ADMIT ONE</h3>
+                                    <span class="ticket-category-tag" id="ticket-tier-badge">GOLD PASS</span>
+                                </div>
+                                <div class="ticket-id" id="ticket-pass-id">ID: #FEST-9821</div>
+                            </div>
+
+                            <div class="ticket-body">
+                                <div class="ticket-user-section">
+                                    <img id="ticket-photo" src="" alt="Attendee Photo" class="ticket-avatar">
+                                    <div>
+                                        <h2 id="ticket-name">John Doe</h2>
+                                        <p class="ticket-roll" id="ticket-roll">Roll No: 22CS10023</p>
+                                        <span class="status-pill">Verified Attendee</span>
+                                    </div>
+                                </div>
+
+                                <div class="ticket-details-grid">
+                                    <div>
+                                        <label>Selected Artists</label>
+                                        <p id="ticket-artists">-</p>
+                                    </div>
+                                    <div>
+                                        <label>Pass Perks</label>
+                                        <p id="ticket-perks">-</p>
+                                    </div>
+                                    <div>
+                                        <label>Food & Drinks</label>
+                                        <p id="ticket-food">-</p>
+                                    </div>
+                                    <div>
+                                        <label>Games & Fun</label>
+                                        <p id="ticket-games">-</p>
+                                    </div>
+                                </div>
+
+                                <div class="ticket-footer">
+                                    <div>
+                                        <label>Total Paid</label>
+                                        <h3 id="ticket-total-price">₹0</h3>
+                                    </div>
+                                    <div class="barcode-mock">
+                                        |||||| | |||| ||| ||||||| ||| ||||
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wizard-actions ticket-actions">
+                        <button class="btn btn-secondary" onclick="printTicket()">🖨️ Print Ticket</button>
+                        <button class="btn btn-primary" onclick="switchTab('passes')">View in My Passes</button>
+                        <button class="btn btn-outline" onclick="resetWizard()">Create Another Pass</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= TAB 3: MY PASSES (LOCALSTORAGE ARCHIVE) ================= -->
+        <section id="view-passes" class="view-section">
+            <div class="passes-header">
+                <h2>My Saved Passes</h2>
+                <p>All passes generated on this browser are stored locally in your device.</p>
+            </div>
+
+            <div id="saved-passes-list" class="saved-grid">
+                <!-- Injected via localStorage in script.js -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>© Fest 2027 Student Organizing Committee • Built with HTML, CSS, and Vanilla JavaScript</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
